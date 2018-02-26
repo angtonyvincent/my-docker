@@ -7,7 +7,7 @@ USER root
 # Test
 RUN echo 'TEST'
 
-RUN echo 'TEST' > /Tony/test.txt
+RUN echo 'TEST' >> test.txt
 
 RUN echo $SPARK_HOME
 
