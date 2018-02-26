@@ -4,6 +4,8 @@ LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 
 USER root
 
+WORKDIR /Tony/spark/conf/
+
 # Download file to Spark's config folder
 # ADD https://raw.githubusercontent.com/angtonyvincent/my-docker/master/spark-defaults.conf $SPARK_HOME/conf/
 
@@ -18,7 +20,7 @@ spark.mesos.driver.labels DCOS_SPACE:/spark\n\
 spark.mesos.executor.docker.forcePullImage true\n\
 spark.mesos.executor.docker.image mesosphere/spark:2.1.0-2.2.1-1-hadoop-2.6\n\
 spark.mesos.uris http://master.dcos/service/hdfs/v1/endpoints/hdfs-site.xml,http://master.dcos/service/hdfs/v1/endpoints/core-site.xml\n\
-spark.submit.deployMode cluster\n'\ >> ./tmp/spark-defaults.conf
+spark.submit.deployMode cluster\n'\ >> spark-defaults.conf
 #/Tony/spark/conf/spark-defaults.conf
 #$SPARK_HOME/conf/
 
