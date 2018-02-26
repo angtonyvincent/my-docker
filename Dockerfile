@@ -4,11 +4,8 @@ LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 
 USER root
 
-# Test
-COPY spark-defaults.conf /tmp/
-
 # Move file to Spark's config folder
-COPY spark-defaults.conf $SPARK_HOME/conf/
+ADD https://raw.githubusercontent.com/angtonyvincent/my-docker/master/spark-defaults.conf $SPARK_HOME/conf/
 
 # R Spark config
 ENV R_LIBS_USER $SPARK_HOME/R/lib
