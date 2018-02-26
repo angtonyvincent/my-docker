@@ -5,7 +5,8 @@ LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 USER root
 
 # Move file to Spark's config folder
-ADD https://raw.githubusercontent.com/angtonyvincent/my-docker/master/spark-defaults.conf $SPARK_HOME/conf/
+# ADD https://raw.githubusercontent.com/angtonyvincent/my-docker/master/spark-defaults.conf $SPARK_HOME/conf/
+RUN echo "Some line to add to a file" >> /tmp/test.txt
 
 # R Spark config
 ENV R_LIBS_USER $SPARK_HOME/R/lib
