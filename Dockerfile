@@ -5,9 +5,11 @@ LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 USER root
 
 # Test
+RUN echo "TEST"
+
 RUN echo "Line 1" >  /Tony/test.txt && \
-    echo "Line 2" >> /Tony/my_file && \
-    echo "Line 3" >> /Tony/my_file
+    echo "Line 2" >> /Tony/test.txt && \
+    echo "Line 3" >> /Tony/test.txt
 
 RUN echo $SPARK_HOME
 
