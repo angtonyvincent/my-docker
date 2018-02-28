@@ -4,7 +4,7 @@ LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 
 USER root
 
-WORKDIR ./$SPARK_HOME/conf/
+# WORKDIR /$SPARK_HOME/conf/
 
 # Download file to Spark's config folder
 # ADD https://raw.githubusercontent.com/angtonyvincent/my-docker/master/spark-defaults.conf ./$SPARK_HOME/conf/
