@@ -14,10 +14,12 @@ RUN apt-get -y update && \
     apt-get install --no-install-recommends -y openjdk-8-jre-headless ca-certificates-java && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+    
 RUN cd /tmp && \
-        wget -q http://d3kbcqa49mib13.cloudfront.net/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
-        tar xzf spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -C /usr/local && \
-        rm spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
+    wget -q http://d3kbcqa49mib13.cloudfront.net/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    tar xzf spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -C /usr/local && \
+    rm spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
+    
 RUN cd /usr/local && ln -s spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} spark
 
 # Mesos dependencies
@@ -38,18 +40,20 @@ ENV MESOS_NATIVE_LIBRARY /usr/local/lib/libmesos.so
 ENV SPARK_OPTS --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info
 
 # Create Spark's config file
-RUN echo 'spark.ssl.noCertVerification true\n\
-spark.driver.cores 1\n\
-spark.driver.memory 1G\n\
-spark.driver.supervise true\n\
-spark.executor.memory 1G\n\
-spark.master mesos://192.168.237.146/service/spark\n\
-spark.mesos.driver.labels DCOS_SPACE:/spark\n\
-spark.mesos.executor.docker.forcePullImage true\n\
-spark.mesos.executor.docker.image mesosphere/spark:2.1.0-2.2.1-1-hadoop-2.6\n\
-spark.mesos.uris http://master.dcos/service/hdfs/v1/endpoints/hdfs-site.xml,http://master.dcos/service/hdfs/v1/endpoints/core-site.xml\n\
-spark.submit.deployMode client\n'\ >> /usr/local/spark-2.2.0-bin-hadoop2.6/spark-defaults.conf
-
+RUN cd $SPARK_HOME/conf && \
+    wget http://master.mesos/service/hdfs/v1/endpoints/hdfs-site.xml && \
+    wget http://master.mesos/service/hdfs/v1/endpoints/core-site.xml && \
+    echo 'spark.ssl.noCertVerification true\n\
+    spark.driver.cores 1\n\
+    spark.driver.memory 1G\n\
+    spark.driver.supervise true\n\
+    spark.executor.memory 1G\n\
+    spark.master mesos://192.168.237.146/service/spark\n\
+    spark.mesos.driver.labels DCOS_SPACE:/spark\n\
+    spark.mesos.executor.docker.forcePullImage true\n\
+    spark.mesos.executor.docker.image mesosphere/spark:2.1.0-2.2.1-1-hadoop-2.6\n\
+    spark.mesos.uris http://master.dcos/service/hdfs/v1/endpoints/hdfs-site.xml,http://master.dcos/service/hdfs/v1/endpoints/core-site.xml\n\
+    spark.submit.deployMode client\n'\ >> spark-defaults.conf
 
 USER $NB_UID
 
