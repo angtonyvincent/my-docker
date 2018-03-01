@@ -41,8 +41,6 @@ ENV SPARK_OPTS --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M -
 
 # Create Spark's config file
 RUN cd /usr/local/spark/conf && \
-    wget http://master.mesos/service/hdfs/v1/endpoints/hdfs-site.xml && \
-    wget http://master.mesos/service/hdfs/v1/endpoints/core-site.xml && \
     echo 'spark.ssl.noCertVerification true\n\
     spark.driver.cores 1\n\
     spark.driver.memory 1G\n\
@@ -55,21 +53,5 @@ RUN cd /usr/local/spark/conf && \
     spark.mesos.uris http://master.dcos/service/hdfs/v1/endpoints/hdfs-site.xml,http://master.dcos/service/hdfs/v1/endpoints/core-site.xml\n\
     spark.submit.deployMode client\n'\ >> spark-defaults.conf
 
-USER $NB_UID
-
-# Apache Toree kernel
-RUN pip install --no-cache-dir \
-    https://dist.apache.org/repos/dist/dev/incubator/toree/0.2.0/snapshots/dev1/toree-pip/toree-0.2.0.dev1.tar.gz \
-    && \
-    jupyter toree install --sys-prefix && \
-    rm -rf /home/$NB_USER/.local && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER
-
-# Spylon-kernel
-RUN conda install --quiet --yes 'spylon-kernel=0.4*' && \
-    conda clean -tipsy && \
-    python -m spylon_kernel install --sys-prefix && \
-    rm -rf /home/$NB_USER/.local && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER
+ADD hdfs-site.xml /usr/local/spark/conf
+ADD core-site.xml /usr/local/spark/conf
