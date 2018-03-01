@@ -40,7 +40,7 @@ ENV MESOS_NATIVE_LIBRARY /usr/local/lib/libmesos.so
 ENV SPARK_OPTS --driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info
 
 # Create Spark's config file
-RUN cd $SPARK_HOME/conf && \
+RUN cd /usr/local/spark/conf && \
     wget http://master.mesos/service/hdfs/v1/endpoints/hdfs-site.xml && \
     wget http://master.mesos/service/hdfs/v1/endpoints/core-site.xml && \
     echo 'spark.ssl.noCertVerification true\n\
