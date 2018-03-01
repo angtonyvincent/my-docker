@@ -55,3 +55,6 @@ RUN cd /usr/local/spark/conf && \
 
 ADD hdfs-site.xml /usr/local/spark/conf
 ADD core-site.xml /usr/local/spark/conf
+
+USER $NB_UID
+
