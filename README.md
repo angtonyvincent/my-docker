@@ -12,7 +12,7 @@ pyspark, pandas, matplotlib, scipy, seaborn, scikit-learn pre-installed for Pyth
 
 ggplot2, rcurl preinstalled for R
 
-Spark 2.2.0 with Hadoop 2.7 for use in local mode or to connect to a cluster of Spark workers
+Spark 2.2.0 with Hadoop 2.6 for use in local mode or to connect to a cluster of Spark workers
 
 Mesos client 1.2 binary that can communicate with a Mesos master
 
